@@ -241,4 +241,5 @@ def checkout_session():
     return f"<h1>Success! Your Key is: {new_key}</h1><br><a href='/login'>Go Login</a>"
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000, ssl_context='adhoc')
+    port = int(os.environ.get("PORT", 10000))
+    app.run(debug=False, host='0.0.0.0', port=port)
