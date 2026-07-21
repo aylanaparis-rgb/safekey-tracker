@@ -87,9 +87,23 @@ STOREFRONT_TEMPLATE = """
         <script>
         function updateLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendLocation, locError);
-            }
-        }
+               function updateLocation() {
+    if (navigator.geolocation) {
+        document.getElementById('status-text').innerText = "Connecting to satellite triangulation...";
+        
+        // High-accuracy configuration options
+        const geoOptions = {
+            enableHighAccuracy: true,  // Forces phone to use combined GPS/Cell/Wi-Fi
+            timeout: 5000,             // Stops waiting after 5 seconds to prevent infinite spinning
+            maximumAge: 0              // Forces a fresh location check instead of cached data
+        };
+
+        navigator.geolocation.getCurrentPosition(sendLocation, locError, geoOptions);
+    } else {
+        alert("Tracking frameworks are restricted on this device layout.");
+    }
+}
+
         function sendLocation(position) {
             fetch('/api/update-proximity', {
                 method: 'POST',
